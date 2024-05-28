@@ -22,7 +22,7 @@ function App() {
   return (
     <>
       <Nav currentUser={currentUser} logOut={handleLogOut} />
-      <div className="flex items-center justify-center min-h-screen bg-gray-900">
+      <div className="flex items-center justify-center min-h-screen bg-sky-500">
         {!isLoggedIn && <Login handleSetUser={handleSetUser} />}
         {isLoggedIn && (
           <BankingDashBoard
@@ -37,12 +37,9 @@ function App() {
 
 export default App;
 
-// ***********
-// NAV
-// ***********
 function Nav({ currentUser, logOut }) {
   return (
-    <nav className="bg-gray-700 p-4">
+    <nav className="bg-sky-600 p-4">
       <div className="container mx-auto flex justify-between items-center">
         <div className="text-white text-lg">
           {currentUser ? `Welcome, ${currentUser.name}` : "Welcome, Guest"}
@@ -60,9 +57,6 @@ function Nav({ currentUser, logOut }) {
   );
 }
 
-// ***********
-// LOGIN
-// ***********
 function Login({ handleSetUser }) {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
@@ -81,7 +75,7 @@ function Login({ handleSetUser }) {
   }
 
   return (
-    <div className="bg-gray-800 p-8 rounded shadow-md w-full max-w-xs">
+    <div className="bg-sky-700 p-8 rounded shadow-md w-full max-w-xs">
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label className="block text-sm font-bold mb-2 text-white">
@@ -127,11 +121,11 @@ function Login({ handleSetUser }) {
 
 function BankingDashBoard({ currentUser, setCurrentUser }) {
   return (
-    <div className="bg-gray-600 p-8 rounded shadow-md w-full max-w-4xl flex max-h-full">
-      <div className="flex-1 ml-8 overflow-y-auto ">
+    <div className="bg-sky-600 p-8 rounded shadow-md w-full max-w-screen-xl mx-auto flex flex-col lg:flex-row">
+      <div className="overflow-y-auto lg:flex-1 lg:mr-8">
         <Transactions currentUser={currentUser} />
       </div>
-      <div className="ml-8">
+      <div className="mt-8 lg:mt-0 lg:w-1/3">
         <TransactionRequest
           currentUser={currentUser}
           setCurrentUser={setCurrentUser}
@@ -143,17 +137,20 @@ function BankingDashBoard({ currentUser, setCurrentUser }) {
 
 function Transactions({ currentUser }) {
   return (
-    <div>
-      <ul className="max-h-full overflow-y-auto">
+    <div className="bg-white rounded shadow-md p-4">
+      <h2 className="text-lg font-semibold mb-4">Transactions</h2>
+      <ul className="overflow-y-auto max-h-96">
         {currentUser.transactions.map((transaction) => (
           <li
             key={transaction.id}
-            className="mb-4 p-4 bg-white rounded shadow-md"
+            className="mb-4 p-4 bg-sky-100 rounded shadow-md"
           >
-            <p>ID: {transaction.id}</p>
+            <p>Transaction ID: {transaction.id}</p>
             <p
               className={
-                transaction.amount < 0 ? "text-red-500" : "text-green-500"
+                transaction.amount < 0
+                  ? "text-red-500 font-bold"
+                  : "text-green-500 font-bold"
               }
             >
               Amount: {transaction.amount}
@@ -162,7 +159,7 @@ function Transactions({ currentUser }) {
           </li>
         ))}
       </ul>
-      <p className="text-white">
+      <p className="text-black font-bold">
         Account Balance:{" "}
         <span
           className={
@@ -251,7 +248,6 @@ function TransactionSelect({ transactionType, onChange }) {
         <label htmlFor="deposit" className="ml-2 mr-4">
           Deposit
         </label>
-
         <input
           type="radio"
           id="withdrawal"
@@ -308,7 +304,9 @@ function TransactionForm({ transactionType, handleSubmit }) {
           id="amount"
           value={transactionAmount}
           onChange={(e) => setTransactionAmount(Number(e.target.value))}
-          className="w-full px-3 py-2 mt-1 text-gray-700 border rounded-md focus:outline-none focus:border-blue-500"
+          className="w-full px-3 py-2 mt-1 text-gray-700 border rounded-md focus
+focus
+"
         />
       </div>
       <div className="mb-4">
@@ -324,7 +322,7 @@ function TransactionForm({ transactionType, handleSubmit }) {
           id="description"
           value={transactionDescription}
           onChange={(e) => setTransactionDescription(e.target.value)}
-          className="w-full px-3 py-2 mt-1 text-gray-700 border rounded-md focus:outline-none focus:border-blue-500"
+          className="w-full px-3 py-2 mt-1 text-gray-700 border rounded-md focus"
         />
       </div>
       <button
